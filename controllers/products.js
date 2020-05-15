@@ -8,12 +8,16 @@ const getAllProducts = async (request, response) => {
   return response.send(products)
 }
 
-const getProductsById = async (request, response) => {
-  const { id } = request.params
+const getProductsByidentifier = async (request, response) => {
+  const { identifier } = request.params
 
   const product = await models.Products.findOne({
-    where: { id },
-    include: [{ model: models.Manufacturers }]
+    include: [{ model: models.Manufacturers, attributes: ['id', 'name', 'country'] }],
+    attributes: ['id', 'name', 'yearIntroduced'],
+    [models.Op.or]: [
+      { id: { [models.Op.like]: `%${identifier}%` } },
+      { name: { [models.Op.like]: `%${identifier}%` } },
+    ]
   })
 
   return product
@@ -21,4 +25,4 @@ const getProductsById = async (request, response) => {
     : response.sendStatus(404)
 }
 
-module.exports = { getAllProducts, getProductsById }
+module.exports = { getAllProducts, getProductsByidentifier }

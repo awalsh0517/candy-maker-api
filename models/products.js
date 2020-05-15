@@ -4,6 +4,10 @@ const Products = (connection, Sequelize, Manufacturers) => {
     name: { type: Sequelize.STRING, allowNull: false },
     yearIntroduced: { type: Sequelize.DATEONLY },
     manufacturerId: { type: Sequelize.INTEGER, references: { model: Manufacturers, key: 'id' } },
+  }, {
+    defaultScope: {
+      attributes: { exlcude: ['deletedAt'] }
+    }
   }, { paranoid: true })
 }
 

@@ -3,6 +3,10 @@ const Manufacturers = (connection, Sequelize) => {
     id: { type: Sequelize.INTEGER, autoIncrement: true, primaryKey: true },
     name: { type: Sequelize.STRING, allowNull: false },
     country: { type: Sequelize.STRING },
+  }, {
+    defaultScope: {
+      attributes: { exlcude: ['deletedAt'] }
+    }
   }, { paranoid: true })
 }
 
